@@ -163,7 +163,10 @@
             inset: 0 0 auto;
             z-index: 100;
             height: var(--nav-height);
-            background: transparent;
+            background: rgba(2, 4, 10, 0.55);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--line);
         }
         .nav-inner {
             height: 100%;
@@ -207,6 +210,37 @@
             color: var(--primary);
             border-color: var(--primary);
             box-shadow: 0 0 18px var(--primary-glow);
+        }
+
+        /* ===== 顶部目录栏 ===== */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            list-style: none;
+            flex: 1 1 auto;
+            justify-content: center;
+        }
+        .nav-menu li {
+            display: inline-flex;
+        }
+        .nav-menu a {
+            display: inline-block;
+            font-family: var(--font-pixel);
+            font-size: 13px;
+            letter-spacing: 0.04em;
+            color: var(--muted);
+            padding: 7px 13px;
+            border-radius: 4px;
+            white-space: nowrap;
+            line-height: 1;
+            transition: color 0.2s, background 0.2s, box-shadow 0.2s;
+        }
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #fff;
+            background: var(--primary-soft);
+            box-shadow: 0 0 12px var(--primary-glow);
         }
 
         /* ===== 双语排版 ===== */
@@ -728,6 +762,110 @@
             text-shadow: 0 0 10px var(--accent);
         }
 
+        /* ===== 项目分类标签页（仿 1.0 的 Tabs 分栏） ===== */
+        .proj-content {
+            min-width: 0;
+        }
+        .proj-tabs-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .proj-tab {
+            font-family: var(--font-pixel);
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            color: var(--muted);
+            background: rgba(8, 14, 28, 0.55);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 9px 20px;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+        .proj-tab:hover {
+            color: #fff;
+            border-color: var(--line-bright);
+        }
+        .proj-tab[aria-selected="true"] {
+            color: #fff;
+            background: var(--primary-soft);
+            border-color: var(--primary);
+            box-shadow: 0 0 16px var(--primary-glow);
+        }
+        .proj-panel {
+            display: none;
+        }
+        .proj-panel[aria-hidden="false"] {
+            display: block;
+            animation: projFade 0.25s ease;
+        }
+        @keyframes projFade {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== 联系（移至首页下方） ===== */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            min-width: 0;
+        }
+        .contact-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(145deg, rgba(10, 18, 35, 0.9), rgba(5, 9, 20, 0.82));
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            color: var(--muted);
+            text-decoration: none;
+            transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s, color 0.25s;
+            min-width: 0;
+        }
+        .contact-card:hover {
+            border-color: var(--line-bright);
+            box-shadow: 0 0 22px rgba(50, 130, 246, 0.18);
+            transform: translateY(-3px);
+            color: #fff;
+        }
+        .contact-card svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--primary);
+            fill: none;
+            stroke-width: 2;
+            flex-shrink: 0;
+        }
+        .contact-card span {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            word-break: break-all;
+        }
+        .contact-card .copy-btn {
+            margin-left: auto;
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--primary);
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            padding: 3px 9px;
+            border-radius: 3px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .contact-card .copy-btn:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+        @media (max-width: 620px) {
+            .contact-grid { grid-template-columns: 1fr; }
+        }
+
         /* ===== 技能卡片 ===== */
         .skills-container {
             display: flex;
@@ -1178,6 +1316,42 @@
 
         /* ===== 响应式 ===== */
         @media (max-width: 900px) {
+            .nav {
+                height: auto;
+                min-height: var(--nav-height);
+            }
+            .nav-inner {
+                flex-wrap: wrap;
+                gap: 6px 12px;
+                padding: 7px 0;
+            }
+            .nav-brand {
+                order: 1;
+                flex: 1 1 auto;
+            }
+            .nav-actions {
+                order: 2;
+                flex: 0 0 auto;
+            }
+            .nav-menu {
+                order: 3;
+                flex-basis: 100%;
+                justify-content: flex-start;
+                overflow-x: auto;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                gap: 0;
+                margin-top: 2px;
+                padding-top: 6px;
+                border-top: 1px solid var(--line);
+            }
+            .nav-menu::-webkit-scrollbar {
+                display: none;
+            }
+            .nav-menu a {
+                font-size: 12px;
+                padding: 6px 11px;
+            }
             .split-grid {
                 grid-template-columns: 1fr;
                 row-gap: 8px;
@@ -1189,7 +1363,7 @@
                 padding: 52px 0;
             }
             .hero {
-                padding-top: calc(var(--nav-height) + 48px);
+                padding-top: calc(var(--nav-height) + 112px);
             }
             .skill-card {
                 flex-direction: column;
@@ -1259,6 +1433,7 @@
             .edu-card .edu-major,
             .edu-card .edu-courses,
             .footer-contact,
+            .contact-card,
             .footer-bottom,
             .cover-kicker {
                 color: #333 !important;
@@ -1276,6 +1451,7 @@
             .skill-card,
             .edu-card,
             .cert-card,
+            .contact-card,
             .exp-item {
                 background: #fff !important;
                 border: 1px solid #d1d5db !important;
@@ -1327,6 +1503,16 @@
             .footer-contact .copy-btn {
                 display: none !important;
             }
+            .reveal {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            .section-aside {
+                position: static !important;
+            }
+            .proj-panel {
+                display: block !important;
+            }
         }
     </style>
 </head>
@@ -1352,8 +1538,17 @@
     <!-- ===== 顶部导航 ===== -->
     <nav class="nav" role="navigation" aria-label="主导航" data-page-node-id="vEeFHCetgVzRWyHPFNEaxn">
         <div class="container nav-inner" data-page-node-id="CHEyDHfCVotCbWVGtBREJ3">
-            <div class="nav-brand" data-page-node-id="MBJA1nPvfjsf8lcxH2nx5X">周震琦<span data-page-node-id="xuk6jfXLYwNrz31yREDuc5"> // RESUME</span></div>
-            <div class="nav-actions" data-page-node-id="kv6b8q3mnhTUITFftSclGw">
+                <div class="nav-brand" data-page-node-id="MBJA1nPvfjsf8lcxH2nx5X">周震琦<span data-page-node-id="xuk6jfXLYwNrz31yREDuc5"> // RESUME</span></div>
+                <ul class="nav-menu" id="navMenu" data-page-node-id="navMenuNode">
+                    <li><a href="#hero" class="active">首页</a></li>
+                    <li><a href="#highlights">亮点</a></li>
+                    <li><a href="#experience">经历</a></li>
+                    <li><a href="#projects">项目</a></li>
+                    <li><a href="#skills">技能</a></li>
+                    <li><a href="#education">教育</a></li>
+                    <li><a href="#contact">联系</a></li>
+                </ul>
+                <div class="nav-actions" data-page-node-id="kv6b8q3mnhTUITFftSclGw">
                 <button class="btn-mono" id="printBtn" aria-label="打印简历" title="打印 / 导出 PDF" data-page-node-id="89AhBcljxyQpSX95SS2pMY">⎙ 导出 PDF</button>
             </div>
         </div>
@@ -1370,7 +1565,6 @@
                         <div class="tag-black" data-page-node-id="hXZQbnyHf0h2atfsYA8Wya">IDENTITY: 2026级本科新生</div>
                         <div class="tag-border" data-page-node-id="wtLt5otprcdlS3X8dMgAYa">南昌航空大学 · 数据科学与大数据技术</div>
                     </div>
-                    <div class="sub-kicker" data-page-node-id="HB9xk19EYC5QDi0uCGrSgh">P O R T F O L I O &nbsp;&nbsp;//&nbsp;&nbsp; V E R S I O N _ 1 . 1 8</div>
 
                     <div class="hero-title-row" data-page-node-id="7GdMDwvlk2B51uoA5C2B2p">
                         <h1 data-page-node-id="IbDeIDDHCFJoxfkgR88nZ7">周震琦<span class="title-dot" data-page-node-id="jEJTCPLWsCMSxVMJ605wiP">.</span></h1>
@@ -1388,6 +1582,21 @@
                     <div class="hero-tags" id="heroTags" data-page-node-id="vcQnVOeiKYoodFtEe5Gm7L">
                         <!-- JS 渲染 -->
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 联系（移至首页下方） ===== -->
+        <section class="section" id="contact" data-page-node-id="contactSection">
+            <div class="container split-grid" data-page-node-id="contactSplit">
+                <div class="section-aside reveal" data-page-node-id="contactAside">
+                    <div class="section-header" data-page-node-id="contactHeader">
+                        <div class="section-kicker" data-page-node-id="contactKicker">// CONTACT</div>
+                        <h2 class="section-title" data-page-node-id="contactTitle">联系<span class="en" data-page-node-id="contactEn">Get In Touch</span></h2>
+                    </div>
+                </div>
+                <div class="contact-grid reveal" id="contactGrid" data-page-node-id="contactGridNode">
+                    <!-- JS 渲染 -->
                 </div>
             </div>
         </section>
@@ -1437,8 +1646,13 @@
                         <h2 class="section-title" data-page-node-id="P94UBAzHFlvepJomFXBSDl">项目<span class="en" data-page-node-id="g65hUbsQZrYLxXBLSxRpn3">Projects</span></h2>
                     </div>
                 </div>
-                <div class="exp-timeline reveal" id="projTimeline" data-page-node-id="otRlsI9VllFQdsbhWxkd8t">
-                    <!-- JS 渲染 -->
+                <div class="proj-content">
+                    <div class="proj-tabs-nav reveal" id="projTabNav" role="tablist" aria-label="项目分类" data-page-node-id="otRlsI9VllFQdsbhWxkd8t">
+                        <!-- JS 渲染 -->
+                    </div>
+                    <div class="proj-panels" id="projPanels">
+                        <!-- JS 渲染 -->
+                    </div>
                 </div>
             </div>
         </section>
@@ -1485,13 +1699,10 @@
                     <div class="footer-name" data-page-node-id="kUOMc1UeBTWggqlig26xel">周震琦<span class="title-dot" data-page-node-id="zzNOQZypdFEYf2r78s6zGN">.</span></div>
                     <div class="footer-en" data-page-node-id="yej1mp7zZBFXJ2fR9dHAlq">PERSONAL RESUME · DATA SCIENCE &amp; BIG DATA</div>
                 </div>
-                <div class="footer-contact" id="footerContact" data-page-node-id="FapxmLcwauZoF8x3ShDSNl">
-                    <!-- JS 渲染 -->
-                </div>
             </div>
             <div class="footer-bottom" data-page-node-id="O88Un8EWXNXvAZ0K6tomxr">
-                <span data-page-node-id="kuGFKB8GSqPMfso3Pv61hy">© 2026 周震琦 · 最后更新 2026年9月15日      version:2.0</span>
-                <span data-page-node-id="Ih5BRI4kZaUhyIkPxaZ9P1">// EOF</span>
+                <span data-page-node-id="kuGFKB8GSqPMfso3Pv61hy">© 2026 周震琦 · 最后更新 2026年9月15日</span>
+                <span data-page-node-id="Ih5BRI4kZaUhyIkPxaZ9P1">// version:2.2</span>
             </div>
         </div>
     </footer>
@@ -1566,10 +1777,9 @@
                     }]
                 }],
                 projects: [{
-                    id: 'proj-aero',
-                    num: '01.',
-                    label: '航空航天',
-                    en: 'AEROSPACE',
+                    id: 'proj-util',
+                    label: '实用小程序',
+                    en: 'UTILITIES',
                     items: [{
                         title: '自制齐奥尔科夫斯基火箭方程计算器',
                         stack: ['Python', 'Tkinter', '数值计算', 'GUI 设计'],
@@ -1581,10 +1791,19 @@
                             { src: 'calculator_1.png', caption: '第一代计算器' },
                             { src: 'calculator_2.png', caption: '第二代计算器' }
                         ]
+                    }, {
+                        title: '自制班级课堂随机点名系统',
+                        stack: ['HTML', '随机抽取', '文件导入', 'GUI 设计'],
+                        desc: '该班级课堂随机点名系统使用WorkBuddy制作，程序界面简洁又不失灵动，程序功能多样。允许通过将仅含学生姓名的excel表格拖入网站的方式导入学生姓名，支持网站内学生姓名的添加与删除，可以选定单次点名人数，且已被点过的学生不再被下一次点名点到，允许重置整轮点名。',
+                        images: [
+                            { src: 'random_roll-call.png', caption: '随机点名系统主界面' }
+                        ],
+                        result: '本项目用于可用于真实课堂随机点名，后续会有简单更新',
+                        link: 'https://naqi-0521.github.io/random_roll-call/',
+                        linkText: '点击体验班级课堂随机点名系统'
                     }]
                 }, {
                     id: 'proj-game',
-                    num: '02.',
                     label: '自制小游戏',
                     en: 'MINI_GAMES',
                     items: [{
@@ -1602,22 +1821,6 @@
                         result: '已完成第一代简陋版本的制作，后续将迭代新功能',
                         link: 'https://naqi-0521.github.io/tank_war/',
                         linkText: '点击体验《坦克大战》小游戏'
-                    }]
-                }, {
-                    id: 'proj-tool',
-                    num: '03.',
-                    label: '实用小程序',
-                    en: 'UTILITIES',
-                    items: [{
-                        title: '自制班级课堂随机点名系统',
-                        stack: ['HTML', '随机抽取', '文件导入', 'GUI 设计'],
-                        desc: '该班级课堂随机点名系统使用WorkBuddy制作，程序界面简洁又不失灵动，程序功能多样。允许通过将仅含学生姓名的excel表格拖入网站的方式导入学生姓名，支持网站内学生姓名的添加与删除，可以选定单次点名人数，且已被点过的学生不再被下一次点名点到，允许重置整轮点名。',
-                        images: [
-                            { src: 'random_roll-call.png', caption: '随机点名系统主界面' }
-                        ],
-                        result: '本项目用于可用于真实课堂随机点名，后续会有简单更新',
-                        link: 'https://naqi-0521.github.io/random_roll-call/',
-                        linkText: '点击体验班级课堂随机点名系统'
                     }]
                 }],
                 skills: {
@@ -1801,38 +2004,67 @@
                 }).join('');
             }
 
-            // 项目：时间线分组 + 项目卡片
+            // 项目：分类标签页（实用小程序 / 自制小游戏），仿 1.0 的 Tabs 分栏
             function renderProjects() {
-                const el = $('#projTimeline');
-                if (!el) return;
-                el.innerHTML = resume.projects.map(function(g) {
-                    const cards = g.items.map(function(item) {
-                        let imagesHtml = '';
-                        if (item.images && item.images.length) {
-                            imagesHtml = '<div class="proj-images">' + item.images.map(function(img) {
-                                return '<figure>' +
-                                    '<div class="img-frame"><img src="' + img.src + '" alt="' + img.caption + '" loading="lazy" /></div>' +
-                                    '<figcaption>' + img.caption + '</figcaption>' +
-                                    '</figure>';
-                            }).join('') + '</div>';
-                        }
-                        return '<div class="project-card">' +
-                            '<div class="proj-title">' + item.title + '</div>' +
-                            '<div class="proj-stack">' + item.stack.map(function(s) { return '<span>' + s + '</span>'; }).join('') + '</div>' +
-                            '<div class="proj-desc">' + item.desc + '</div>' +
-                            imagesHtml +
-                            '<div class="proj-result">📊 ' + item.result + '</div>' +
-                            (item.link ? '<div class="proj-link">🔗 <a href="' + item.link + '" target="_blank">' + (item.linkText || '点击体验') + '：' + item.link + '</a></div>' : '') +
-                            '</div>';
-                    }).join('');
-                    return '<div class="exp-section">' +
-                        '<div class="exp-section-header">' +
-                            '<div class="exp-section-title"><span class="num">' + g.num + '</span>' + g.label +
-                                '<span class="en-tag">// ' + g.en + '</span></div>' +
-                        '</div>' +
-                        '<div class="project-grid">' + cards + '</div>' +
+                const nav = $('#projTabNav');
+                const panels = $('#projPanels');
+                if (!nav || !panels) return;
+                const projData = resume.projects;
+
+                function cardHtml(item) {
+                    let imagesHtml = '';
+                    if (item.images && item.images.length) {
+                        imagesHtml = '<div class="proj-images">' + item.images.map(function(img) {
+                            return '<figure>' +
+                                '<div class="img-frame"><img src="' + img.src + '" alt="' + img.caption + '" loading="lazy" /></div>' +
+                                '<figcaption>' + img.caption + '</figcaption>' +
+                                '</figure>';
+                        }).join('') + '</div>';
+                    }
+                    return '<div class="project-card">' +
+                        '<div class="proj-title">' + item.title + '</div>' +
+                        '<div class="proj-stack">' + item.stack.map(function(s) { return '<span>' + s + '</span>'; }).join('') + '</div>' +
+                        '<div class="proj-desc">' + item.desc + '</div>' +
+                        imagesHtml +
+                        '<div class="proj-result">📊 ' + item.result + '</div>' +
+                        (item.link ? '<div class="proj-link">🔗 <a href="' + item.link + '" target="_blank">' + (item.linkText || '点击体验') + '：' + item.link + '</a></div>' : '') +
                         '</div>';
+                }
+
+                nav.innerHTML = projData.map(function(g, idx) {
+                    return '<button class="proj-tab" role="tab" id="ptab-' + g.id + '" aria-controls="ppanel-' + g.id + '" aria-selected="' + (idx === 0 ? 'true' : 'false') + '" tabindex="' + (idx === 0 ? '0' : '-1') + '">' + g.label + '</button>';
                 }).join('');
+
+                panels.innerHTML = projData.map(function(g, idx) {
+                    const cards = g.items.map(cardHtml).join('');
+                    return '<div class="proj-panel" role="tabpanel" id="ppanel-' + g.id + '" aria-labelledby="ptab-' + g.id + '" aria-hidden="' + (idx === 0 ? 'false' : 'true') + '">' +
+                        '<div class="project-grid">' + cards + '</div></div>';
+                }).join('');
+
+                const tabs = $$('.proj-tab', nav);
+                const pls = $$('.proj-panel', panels);
+                function activate(i) {
+                    tabs.forEach(function(t, k) {
+                        const sel = k === i;
+                        t.setAttribute('aria-selected', sel ? 'true' : 'false');
+                        t.setAttribute('tabindex', sel ? '0' : '-1');
+                        if (sel) t.focus();
+                    });
+                    pls.forEach(function(p, k) {
+                        p.setAttribute('aria-hidden', k === i ? 'false' : 'true');
+                    });
+                }
+                tabs.forEach(function(tab, i) {
+                    tab.addEventListener('click', function() { activate(i); });
+                    tab.addEventListener('keydown', function(e) {
+                        let next = null;
+                        if (e.key === 'ArrowRight') next = (i + 1) % tabs.length;
+                        else if (e.key === 'ArrowLeft') next = (i - 1 + tabs.length) % tabs.length;
+                        else if (e.key === 'Home') next = 0;
+                        else if (e.key === 'End') next = tabs.length - 1;
+                        if (next !== null) { e.preventDefault(); activate(next); }
+                    });
+                });
             }
 
             // 技能：描边大数字卡片
@@ -1892,17 +2124,16 @@
                 el.innerHTML = html;
             }
 
-            // 页脚联系方式
+            // 联系（首页下方的大栏）
             function renderContact() {
-                const el = $('#footerContact');
+                const el = $('#contactGrid');
                 if (!el) return;
                 const p = resume.personal;
                 el.innerHTML =
-                    '<div class="item"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.574 2.81.7A2 2 0 0 1 22 16.92z"/></svg> ' + p.phone + '</div>' +
-                    '<div class="item"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> ' + p.email +
-                        ' <button class="copy-btn" data-email="' + p.email + '" aria-label="复制邮箱">复制</button></div>' +
-                    '<div class="item"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg> <a href="' + p.github + '" target="_blank">' + p.github + '</a></div>' +
-                    '<div class="item"><svg viewBox="0 0 24 24"><path d="M2 12a10 10 0 1 0 20 0 10 10 0 1 0-20 0"/><path d="M12 2v20"/><path d="M2 12h20"/></svg> ' + p.location + '</div>';
+                    '<a class="contact-card" href="tel:' + p.phone + '"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.574 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>' + p.phone + '</span></a>' +
+                    '<div class="contact-card"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span>' + p.email + '</span><button class="copy-btn" data-email="' + p.email + '" aria-label="复制邮箱">复制</button></div>' +
+                    '<a class="contact-card" href="' + p.github + '" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg><span>' + p.github.replace('https://', '') + '</span></a>' +
+                    '<div class="contact-card"><svg viewBox="0 0 24 24"><path d="M2 12a10 10 0 1 0 20 0 10 10 0 1 0-20 0"/><path d="M12 2v20"/><path d="M2 12h20"/></svg><span>' + p.location + '</span></div>';
 
                 const copyBtn = el.querySelector('.copy-btn');
                 if (copyBtn) {
@@ -2113,6 +2344,33 @@
             }
 
             // =============================================================
+            // 顶部目录栏：滚动高亮当前栏目
+            // =============================================================
+            function initNavSpy() {
+                const menu = $('#navMenu');
+                if (!menu) return;
+                const links = $$('#navMenu a');
+                const map = {};
+                links.forEach(function(a) {
+                    const id = a.getAttribute('href').slice(1);
+                    const sec = document.getElementById(id);
+                    if (sec) map[id] = a;
+                });
+                const sections = Object.keys(map).map(function(id) { return document.getElementById(id); });
+                if (!('IntersectionObserver' in window) || !sections.length) return;
+                const obs = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(e) {
+                        if (e.isIntersecting) {
+                            links.forEach(function(l) { l.classList.remove('active'); });
+                            const a = map[e.target.id];
+                            if (a) a.classList.add('active');
+                        }
+                    });
+                }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+                sections.forEach(function(s) { obs.observe(s); });
+            }
+
+            // =============================================================
             // 初始化
             // =============================================================
             function init() {
@@ -2130,6 +2388,7 @@
                 initPrint();
                 initBackTop();
                 initImageViewer();
+                initNavSpy();
             }
 
             if (document.readyState === 'loading') {
